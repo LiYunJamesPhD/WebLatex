@@ -1,0 +1,174 @@
+\section{Data Acquisition and Processing}\label{sec:method}
+The following sections give details on data collection, calibration process and optical illusions in this dataset, and multiple use-cases. 
+
+\begin{figure*}[h]  % * makes it span both columns
+    \centering
+% calibration illustration.
+% \begin{wrapfigure}{1\textwidth}
+%     \centering
+    \includegraphics[width=\textwidth]{imgs/calib+cam+refl+detl.pdf}
+    \caption{Data acquisition and scene categories. We utilize a stereo camera assembly and diverse calibration viewpoints to capture objects with complex optical properties, such as reflective surfaces and fine details and 3D textures.}
+    \label{fig:cal_illustration}
+\end{figure*}
+
+
+\subsection{Camera setup and configuration}\label{subsec:cal_illustration}
+
+The camera assembly consists of two \textit{Canon EOS 6D} full-frame DSLR cameras mounted in a synchronized stereo configuration with identical lens setups as seen in Figure~\ref{fig:cal_illustration} under "Stereo Camera Assembly". Each camera is equipped with a 28–70\,mm zoom lens, enabling controlled variation of focal length. The system supports a wide aperture range from F22 to F2.8, allowing independent adjustment to systematically capture scenes with varying depth-of-field and blur characteristics. To ensure alignment between the stereo pair, remote shutter triggering is used to achieve synchronous image capture, preventing motion inconsistencies between the two views. The cameras are mounted on a balanced, height-adjustable tripod rig that allows precise control over the stereo baseline distance. This adjustable baseline upto a max of 30 cm enables flexible capture configurations suitable for different scene scales while maintaining geometric consistency.
+
+
+\subsection{Data Design and Calibration}\label{subsec:data_design}
+
+% \begin{figure*}[h]  % * makes it span both columns
+%     \centering
+% % calibration illustration.
+% % \begin{wrapfigure}{1\textwidth}
+% %     \centering
+%     \includegraphics[width=\textwidth]{imgs/calib+cam+refl+detl.pdf}
+%     \caption{Data acquisition and scene categories. We utilize a stereo camera assembly and diverse calibration viewpoints to capture objects with complex optical properties, such as reflective surfaces and fine details and 3D textures.}
+%     \label{fig:cal_illustration}
+% \end{figure*}
+
+% \begin{figure}
+%     \centering
+%     \includegraphics[scale=0.9]{imgs/calib+cam+refl+detl.png}
+%     \caption{ADD CAPTION}
+%     \label{fig:cal_illustration}
+% \end{figure}
+During data collection and the calibration process, we captured 10 distinct scenes using a balanced stereo setup composed of two identical Canon EOS 6D cameras and lenses capturing full-frame images. For each scene, we acquired image sets across 10 different focal lengths: \{28, 32, 36, 40, 45, 50, 55, 60, 65, and 70\}mm to examine how focal variation influences geometric accuracy and depth reconstruction. Each focal length yields approximately 100 stereo image pairs: 20 pairs per aperture across five aperture settings (f/2.8, f/4, f/5.6, f/11, f/22).
+
+The calibration set, captured using a fixed aperture, consists of approximately 100 stereo image pairs (left and right) acquired from multiple viewpoints to ensure robust and accurate geometric calibration (Figure~\ref{fig:cal_illustration}) as visualized under "calibration viewpoints”. These images are used to estimate the intrinsic and extrinsic parameters required for accurately calibrated images used for shallow DoF and defocus deblurring use cases.
+
+
+
+\subsection{Scene Diversity and Visual Complexity}\label{subsec:data_illu}
+
+\begin{table}[t]
+\centering
+\caption{Types of scene objects included to capture diverse visual and optical properties.}
+\label{tab:scene_objects}
+\small 
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3cm} X} 
+\toprule
+\textbf{Category} & \textbf{Examples of Objects} \\
+\midrule
+\textbf{Reflective surfaces} & Reflective spheres, ceramic jars, transparent containers, semi-transparent doors \\ %& Mirrors, reflective spheres, metallic balls, reflective cubes, films, crystal spheres, balloons, glass jars, transparent containers, golden foils. \\
+\addlinespace[0.6em]
+\textbf{Fine Details} & Small toys, geometric props, stacked objects, patterned surfaces, small structural shapes, flowers, textured objects, shaped lights. \\ %, torch. \\
+%\addlinespace[0.6em]
+%\textbf{Optical Illusions} & Printed illusion patterns, structured geometric illusion prints, target prints. \\  %& Printed illusion patterns, checkerboard targets, structured geometric illusion prints, target prints. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+%The dataset contains ten scenes as illustrated in Figure~\ref{fig:data} designed to capture diverse visual and optical properties, summarized in Table~\ref{tab:scene_objects} and showed some examples in Figure~\ref{fig:cal_illustration} under "Reflective Surfaces" and "Fine Details 3D Textures". Scene 1 represents the most complex configuration and is intentionally designed to be highly challenging for  MVS, defocus, and deblurring tasks. It contains closely arranged objects including reflective materials, decorative elements, lamps, and light-emitting sources, along with flowers containing thin petals and stems. These objects are densely arranged to create occlusions and complex depth boundaries, while a large banner is placed as the background. Scene 2 presents a simpler tabletop setting with a closed window as the background and primarily focuses on optical illusion patterns mixed with scattered toys.
+
+The MODEST dataset comprises 10 scenes as illustrated in Figure~\ref{fig:data}, designed to capture diverse visual and optical properties, summarized in Table~\ref{tab:scene_objects}. Figure~\ref{fig:cal_illustration} under "Reflective Surfaces" and "Fine Details 3D Textures” shows some example images with a variety of scene objects. Scene 1 represents the most complex configuration and is intentionally designed to be highly challenging for DoF, defocus, and deblurring tasks. This scene has closely arranged objects, including reflective materials, decorative elements, lamps, and light-emitting sources, along with flowers containing thin petals and stems. These objects are densely arranged to create occlusions and complex depth boundaries, while a large banner is placed as the background. Scene 2 presents a simpler tabletop setting with a closed window as the background, and it primarily focuses on optical illusion patterns mixed with scattered toys.
+
+Scene 3-10 introduces a range of real-world indoor environments with increasing variation in background depth, lighting, and object arrangement. Scene 3 contains a chair and table setup with plush toys placed on the table, hanging lamps above, and a distant kitchen chimney visible in the background, introducing large depth variation and mesh-like patterns in the background. Scene 4 is near a fireplace and includes illusion prints, toys, and playful elements such as a toy basketball hoop and a horse-shaped chair. Scene 5 is captured in a living room environment with a sofa, a window in the background, and ceramic vases placed on a tea table. Scene 6 is a meeting room illuminated by strong sunlight, where reflective ceramic vases on the table produce challenging reflections. Scene 7 contains sofas with illusion prints and toys arranged on the sofa and tea table. Scene 8 is a highly structured setup featuring a large waterfall-and-rock backdrop, multiple calibration target prints, shiny spherical reflective surfaces, and toys. Scene 9 comprises patterned prints mounted on a stand alongside a sofa with multiple pillows that exhibit various textures and patterns. The composition of scene 10 is similar to that of scene 1. The difference is that scene 10 is captured in a dark background-light environment with multiple small light sources.
+
+
+\begin{figure*}[t]  % * makes it span both columns
+    \centering
+    \setlength{\abovecaptionskip}{2pt}  % reduce space above caption
+    \setlength{\belowcaptionskip}{2pt}  % optional: reduce space below caption
+    \includegraphics[width=\textwidth]{imgs/data_visualization.pdf}  \\
+    % scale to text width
+    \vspace{-2pt} 
+    \caption{MODEST dataset. For 10 scenes with varying scene complexity, lighting and background, images are captured with two identical camera assemblies at 10 focal lengths (28-70mm) and 5 apertures (f/2.8-f/22) in 2000 images per scene. The data features challenging elements such as multi-scale optical illusions, reflective surfaces, transparent glass doors, sharp lighting changes, ambiguous background depths. Besides a global calibration set, each scene and each focal length has dedicated calibration sets enabling use of classical and learning-based calibration methods for intrinsics and extrinsics.}
+    \label{fig:data}
+    \vspace{-12pt}
+\end{figure*}
+
+
+%\subsection{Data Component: Optical Illusions}\label{subsec:data_illu}
+
+%We use multi-scale optical illusions as a deliberate scene design choice. These include large-format printed backdrops depicting scenes with perceptually ambiguous depth , like , waterfalls, giraffes, and expansive landscapes creating false background geometry when viewed through a camera. Additionally, scenes contain structured geometric illusion prints: repeating concentric circles, impossible box arrangements, and infinite-tunnel patterns that cause locally inconsistent depth cues at object boundaries. At 5K resolution, these illusions retain the fine printed detail that lower-resolution datasets lose, making them genuinely deceptive rather than obviously artificial. For DoF rendering models specifically, these patterns are adversarial, a model relying on semantic priors to locate the focus plane will misplace the blur boundary when a printed waterfall backdrop is optically indistinguishable from a real one at f/2.8.
+
+
+
+% \textcolor{green}{
+% should the title be more just  Data Component and have a small table or subsections ?
+% }
+
+% \textcolor{green}{example ->}
+%\begin{table}[h]
+%\centering
+%\begin{tabular}{|p{0.34\linewidth}|p{0.64\linewidth}|}
+%\hline
+%\textbf{Category} & \textbf{Types of Objects} \\
+%\hline
+%Reflective / Specular / Non-Lambertian Surfaces &
+%Mirrors, reflective spheres, metallic balls, reflective cubes, reflective films, crystal spheres, reflective balloons, glass jars, transparent containers , golden decorative foils \\ 
+%\hline
+%Fine Details & Light sources
+%Small toys, geometric props, stacked objects, patterned surfaces, small structural shapes, flowers , textured objects, flower shaped lights , moon shaped light source , torch    \\ 
+%\hline
+%Optical Illusions &
+%Printed illusion patterns, checkerboard targets, structured geometric illusion prints , %target prints \\ 
+%\hline
+%\end{tabular}
+%\caption{Types of scene objects included to capture diverse visual and optical properties.}
+%\label{tab:scene_objects}
+%\end{table}
+
+
+% \begin{table}[t]
+% \centering
+% \caption{Types of scene objects included to capture diverse visual and optical properties.}
+% \label{tab:scene_objects}
+% \small 
+% \begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3cm} X} 
+% \toprule
+% \textbf{Category} & \textbf{Examples of Objects} \\
+% \midrule
+% \textbf{Reflective surfaces} & Reflective spheres, ceramic jars, transparent containers, semi-transparent doors \\ %& Mirrors, reflective spheres, metallic balls, reflective cubes, films, crystal spheres, balloons, glass jars, transparent containers, golden foils. \\
+% \addlinespace[0.6em]
+% \textbf{Fine Details} & Small toys, geometric props, stacked objects, patterned surfaces, small structural shapes, flowers, textured objects, shaped lights. \\ %, torch. \\
+% \addlinespace[0.6em]
+% \textbf{Optical Illusions} & Printed illusion patterns, structured geometric illusion prints, target prints. \\ %& Printed illusion patterns, checkerboard targets, structured geometric illusion prints, target prints. \\
+% \bottomrule
+% \end{tabularx}
+% \end{table}
+
+
+
+
+
+
+% \begin{figure*}[t]  % * makes it span both columns
+%     \centering
+%     \setlength{\abovecaptionskip}{2pt}  % reduce space above caption
+%     \setlength{\belowcaptionskip}{2pt}  % optional: reduce space below caption
+%     \includegraphics[width=\textwidth]{imgs/data_visualization.pdf}  \\
+%     % scale to text width
+%     \vspace{-2pt} 
+%     \caption{MODEST dataset. For 10 scenes with varying scene complexity, lighting and background, images are captured with two identical camera assemblies at 10 focal lengths (28-70mm) and 5 apertures (f/2.8-f/22) in 2000 images per scene. The data features challenging elements such as multi-scale optical illusions, reflective surfaces, transparent glass doors, sharp lighting changes, ambiguous background depths. Besides a global calibration set, each scene and each focal length has dedicated calibration sets enabling use of classical and learning-based calibration methods for intrinsics and extrinsics.}
+%     \label{fig:data}
+%     \vspace{-12pt}
+% \end{figure*}
+
+
+% \subsection{Use-case: Shallow Depth of Field}\label{subsec:use_dof}
+% MODEST has systematic aperture variation across multiple focal lengths and scenes in a balanced, high resolution stereo assembly, making it ideal for training and evaluation of shallow depth-of-field (DoF) rendering methods. With stereo depth and focus plane information, the data contains almost all information needed to build circle of confusion (COC) maps. Full frame lenses with wide range of optics enable rigorous evaluation of existing and new DoF methods. Dedicated calibration sets give freedom to refine intrinsics and extrinsics to reduce rendering errors. Several scenes contain point lights, rendering beautiful natural bokeh effects.
+
+% MODEST provides a balanced, high-resolution stereo assembly with systematic aperture and focal length variations, making it an ideal testbed for training and evaluating shallow depth-of-field (DoF) rendering methods. Unlike prior datasets that lack optical metadata , our framework enables a disentangled analysis of optical effects; the independent variation of focal length, aperture, and object distance allows researchers to isolate how each specific parameter contributes to rendering performance. With stereo-derived depth and ground-truth focus plane information, the physical relationship between these parameters and the resulting blur is explicitly defined rather than left to the model to infer. This structure provides the necessary components to construct physically grounded circle of confusion (CoC) maps. Furthermore, dedicated calibration sets allow for the refinement of intrinsics and extrinsics to minimize geometric rendering errors , while scenes containing point lights support the evaluation of natural bokeh characteristics.
+
+
+% \subsection{Use-case: Defocus Deblurring}\label{sub_defocus_deblurring}
+
+% \textcolor{green}{
+% Deblurring is a challenging problem that researchers have studied for decades across several domains such as motion blur, defocus blur, atmospheric/turbulence blur, low-light blur, and lens or optical aberrations. In modern deep learning literature, most methods focus on three dominant categories. Motion deblurring , a blur caused by camera shake or object motion while exposure. Defocus deblurring occurs when objects lie outside the focal plane of the camera, producing blur patterns commonly observed in portraits and cinematic photography. Atmospheric or turbulence deblurring arises due to long-distance imaging where air turbulence or heat distortion introduces spatially varying blur.
+% }
+
+% \textcolor{green}{
+% One specific area where MODEST can be particularly useful is defocus deblurring. Due to the availability of multiple aperture and focal length combinations across scenes, the dataset naturally produces varying levels of defocus blur. Since aperture directly controls the circle of confusion (CoC) and focal length influences blur magnitude and depth compression, the dataset contains diverse and physically meaningful blur patterns across images.
+% }
+
+% \textcolor{green}{
+% Additionally, in real scenes the amount of blur differs for objects located in front of the focus plane and those located behind it, leading to asymmetric blur levels across the scene. MODEST captures this natural  variation, providing images where foreground and background regions exhibit different degrees of defocus. This characteristic makes the dataset particularly suitable for evaluating methods that aim to recover spatially varying blur.
+% }
+
+% \textcolor{green}{
+% Furthermore, the availability of stereo information enables depth estimation, which is used as a key component in many defocus deblurring approaches that rely on depth-aware restoration. The systematic variation of optical parameters allows models to be evaluated on their ability to recover fine scene details under different blur magnitudes. Additionally, scenes containing reflective materials, transparent objects, and point light sources introduce challenging real-world defocus artifacts such as specular highlights and complex bokeh structures, making MODEST a valuable benchmark for evaluating the robustness of deep learning-based defocus deblurring methods.
+% }

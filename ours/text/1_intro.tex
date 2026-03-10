@@ -1,0 +1,194 @@
+\section{Introduction}\label{sec:intro}
+
+% add defocus and deblurring datasets.
+% number of images should be checked.
+
+% \textcolor{green}{
+% datasets in dof can be used in deblur methods as well...?
+% }
+
+\begin{table*}
+\centering
+\caption{Data comparison categorized for different use cases, including shallow depth-of-field rendering and defocus deblurring and deblurring. (\dag, \ddag): systematic focal length and aperture variation. RGB-P: RGB with a polarisation sensor. Active Stereo: an active stereo depth sensor. D-ToF, I-TOF: direct, indirect Time-of-Flight sensor.\vspace{-5pt}}
+\label{table:dataset_comparison}
+\footnotesize % Use a smaller font size for a wide table
+
+\begin{adjustbox}{width=\textwidth}
+\begin{tabular}{l c c c c c c c c c}
+    \toprule
+    \textbf{Dataset} & \textbf{Capture} & \textbf{Real/} & \textbf{Scene} & \textbf{Number of} & \textbf{Resolution} & \textbf{Focal Len.} & \textbf{Aperture} & \textbf{Depth} & \textbf{Calibration} \\
+    & \textbf{Setup} & \textbf{Synthetic} & \textbf{Number} & \textbf{Images} & & \textbf{Variation \dag} & \textbf{Variation \ddag} & \textbf{Range} & \textbf{Set} \\
+    \midrule
+    \multicolumn{10}{l}{\textbf{Use Case: Shallow dof rendering and defocus deblurring}} \\
+    \cmidrule{1-10}
+    CUHK ('14)~\cite{Shi2014BlurDetection} & Natural Images from Internet + Binary Blur Region Masks from Human Annotators & Real & \na & 1000 & $352 \!\times\! 352$px & \na & \na & \na & \xmark \\
+    RTF ('16)~\cite{d2016non} & Lytro Light‑field Camera (RGB) & Real & 22 & 44 & $360 \!\times\! 360$px & \xmark & \cmark & \na & \xmark \\
+    DPDD ('19)~\cite{abuolaim2019dpdd} & Mono RGB & Real & 500 & 2000 & $1680 \!\times\! 1120$px & \xmark & \xmark & $0.3\text{m} - 10\text{m}$ & \xmark \\
+    LFDOF ('21)~\cite{ruan2021aifnet} & Light-field Camera + LiDAR & Real & \na & 23978 & $375 \!\times\! 540$px & \xmark & \xmark & $0.3\text{m} - 10\text{m}$ & \xmark \\
+    RealDOF ('21)~\cite{lee2021iterative} & Dual-camera with a beam splitter (RGB) & Real & 50 & 100 & $1536 \!\times\! 2320$px & \xmark & \cmark & \na & \xmark \\
+    BLB ('22)~\cite{zheng2022blur} & Synthetic renderings from Blender & Synthetic & 10 & 1000 & $1920 \!\times\! 1080$px & \xmark & \cmark & $0.5\text{m} - 10\text{m}$ & \xmark \\
+    VABD ('24)~\cite{huang2024vabd} & Mono RGB & Real & 535 & 2940 & $1536 \!\times\! 1024$px & \xmark & \cmark & \na & \xmark \\
+    RealBokeh ('25)~\cite{seizinger2025bokehlicious} & Mono RGB (Canon EOS R6 II) & Real & 300 & 23000 & $6000 \!\times\! 4000$px & \cmark & \cmark & \na & \xmark \\
+    MODEST (Ours) & Stereo RGB (Canon 6D) & Real & 9 & 20000 & $\mathbf{5472 \!\times\! 3648}$px & \cmark & \cmark & $0.5\text{m} - 10\text{m}$ & \cmark \\
+    \midrule
+    \multicolumn{10}{l}{\textbf{Use Case: Deblurring}} \\
+    \cmidrule{1-10}
+    GoPro ('17)~\cite{nah2017deep} & GoPro Hero4 Black Camera & Synthetic & 33 & 3214 & $1280 \!\times\! 720$px & \xmark & \xmark & \na & \xmark \\
+    DeepLens ('18)~\cite{lijun2018deeplens} & Dual-lens Camera + Thin-lens model and Billboards & Real + Synthetic & \na & 502462 & $3024 \!\times\! 4032$px & \xmark & \cmark & \na & \xmark \\
+    HIDE ('19)~\cite{shen2019human} & Gopro Hero4 Black Camera & Synthetic & 31 & 16844 & $1280 \!\times\! 720$px & \xmark & \xmark & $0\text{m} - 3\text{m}$ & \xmark \\
+    REDS ('19)~\cite{nah2019ntire} & GoPro Hero6 Black Camera & Synthetic & 300 & 30000 & $1280 \!\times\! 720$px & \xmark & \xmark & $0\text{m} - 3\text{m}$ & \xmark \\
+    SYNDOF ('19)~\cite{lee2019deep} & Thin-lens model & Synthetic & \na & 8231 & (960-2000) $\!\times\!$ (436-2000)px & \cmark & \cmark & $0.5\text{m} - 80\text{m}$ & \xmark \\
+    RealBlur ('20)~\cite{rim2020real} & Dual-camera System with a Beam Splitter & Real & 232 & 18952 & $680 \!\times\! 772$px & \xmark & \xmark & \na & \cmark \\
+    BSD-B ('20)~\cite{Chen_2020_CVPR} & Convolving Sharp Images with Uniform Disk Kernels & Synthetic & 500 & 40000 & (320-480) $\!\times\!$ (320-480)px & \na & \cmark & \na & \na \\
+    NTIRE ('21)~\cite{nah2021ntire} & GoPro Hero6 Black Camera & Synthetic & 300 & 30000 & $1280 \!\times\! 720$px & \xmark & \xmark & $0.5\text{m} - infinity$ & \xmark \\
+    RSBlur ('22)~\cite{rim2022realistic} & Dual-camera system & Real & 697 & 13358 & $1920 \!\times\! 1200$px & \xmark & \xmark & $1\text{m} - infinity$ & \xmark \\
+    iDFD ('23)~\cite{nazir2023idfd} & Dual-sensor Rig (RGB) + Microsoft Kinect (Depth) & Real & \na & 1528 & $1050 \!\times\! 1050$px & \xmark & \cmark & $0\text{m} - 10\text{m}$ & \xmark \\
+    GS-Blur ('24)~\cite{lee2024gs} & 3D Gaussian Splatting Model & Synthetic & 18542 & 312418 & $1280 \!\times\! 720$px & \cmark & \xmark & \na & \xmark \\
+    QPDD ('25)~\cite{chen2025quad} & 50-megapixel Quad-Pixel Sensor & Real & 300 & 9870 & (1080-4096) $\!\times\!$ (1280-3072)px & \xmark & \cmark & $0.2\text{m} - infinity$ & \xmark \\
+    MODEST (Ours) & Stereo RGB (Canon 6D) & Real & 9 & 20000 & $\mathbf{5472 \!\times\! 3648}$px & \cmark & \cmark & $0.5\text{m} - 10\text{m}$ & \cmark \\
+    %\midrule
+    %\multicolumn{10}{l}{\textbf{Use Case: Optical illusions}} \\
+    %\cmidrule{1-10}
+    %3D-Visual-Illusion ('25)~\cite{yao20253d} & Stereo RGB + LiDAR & Real + Synthetic & 3000 & \na & $1080 \!\times\! 1920$px & \na & \na & $0.5\text{m}-50\text{m}$ & \xmark \\
+    %MonoTrap ('25)~\cite{bartolomei2025stereo} & Stereo Image RGB + LiDAR & Real & 26 & \na & $585 \!\times\! 375$px & \xmark & \xmark & $0\text{m} - 10\text{m}$ & \xmark \\
+    %MODEST (Ours) & Stereo RGB (Canon 6D) & Real & 9 & 20000 & $\mathbf{5472 \!\times\! 3648}$px & \cmark & \cmark & $0.5\text{m} - 10\text{m}$ & \cmark \\
+    \bottomrule
+\end{tabular}
+\end{adjustbox}
+\vspace{-6pt}
+\end{table*}
+
+% Depth estimation is a fundamental and essential application of computer vision, with applications including robotics, autonomous vehicles, augmented or mixed reality, 3D scene creation and novel view synthesis, among others. Recent years have been revolutionary in creating high-quality and precise depth maps and 3D scenes with breakthrough deep-learning models such as FoundationStereo~\cite{wen2025stereo} and Depth Anything~\cite{yang2024depth} for depth estimation and neural radiance fields (NeRFs)~\cite{mildenhall2020nerfrepresentingscenesneural} and Gaussian splatting (GS)~\cite{kerbl20233dgaussiansplattingrealtime} for 3D scene reconstruction.
+
+%Shallow depth of field (DoF) rendering and defocus deblurring are two essential applications in computer vision. Shallow DoF renders a narrow focal plane sharp while blurring foreground and background, making it useful as a preprocessing step for salient object detection and scene segmentation. Shallow DoF could be also used for depth estimation that approximates the distance between objects and a camera. Unlike DoF, defocus deblurring is to restore blurred regions caused by a lens being out of focus. A classical application for defocus deblurring is information recovery where deblurring algorithms recover high-frequency details (e.g., sharp edges). With shallow DoF and defocus deblurring operations, it is easy to mimic real-world optics in all-focused digital images.
+
+Shallow depth of field (DoF) rendering is the process of mimicking the optical blur that occurs in a physical camera with a wide aperture. The effect of shallow DoF is to guide viewers to only focus on a narrow, sharp region of the image with a blurred background and foreground. With synthetically mimicked optical blur, in a study of human-computer interaction (HCI)~\cite{hillaire2008using}, shallow DoF rendering could serve as a perceptual-attentive cue where, by blurring non-important information, the brain can process the sharp area quickly. In addition, shallow DoF rendering is a technique for improving depth from defocus algorithms ~\cite{suwajanakorn2015depth}.
+
+
+%Notably, the applications of depth estimation and single- or multi-view synthesis for computer vision tasks have been studied, and there are popular datasets for model evaluation; however, existing datasets tend to have relatively low-resolution RGB images (e.g., NYU Depth V2~\cite{silberman2012nyu}, TUM RGB-D~\cite{sturm2012tum}, or VOID~\cite{wang2020void} or lack systematic variations of focal lengths and aperture settings (e.g., ScanNet++~\cite{yeshwanth2024scannetpp}, Replica~\cite{straub2019replica} , or HAMMER~\cite{laga2022hammer}. Another limitation of the existing datasets is that the scene complexity is relatively low, i.e., there are only a few scenes that contain small objects (e.g., flowers and leaves), optical illusions, and reflective and transparent surfaces (e.g., glass doors).
+
+%Notably, training and evaluation for shallow DoF and defocus deblurring algorithms remain constrained by the lack of large-scale, full-frame resolution, high-fidelity, real DSLR datasets, limiting real-world generalization and evaluation of models trained on synthetic or low-resolution data. Shallow DoF and defocus deblurring are governed by focal length, aperture, and focus distance. Meaningful evaluation therefore requires datasets that systematically vary these parameters at high resolution, a condition no existing benchmark satisfies. Modern camera systems in augmented reality (AR/VR), autonomous vehicles or robots are equipped with stereo or multiple camera systems, where models trained on monocular datasets cannot exploit stereo disparity and may underperform.
+
+In contrast to DoF, defocus deblurring is a process that utilizes image sharpening algorithms to restore high-frequency information lost in blurred regions caused by a lens being out of focus. Due to this, defocus deblurring is compelling to computer vision applications, including autonomous driving and robotics~\cite{shah2025impact} and surveillance and security~\cite{hillaire2008using}. For autonomous driving and robotics, deblurring algorithms ensure sharp regions for safety navigation. Defocus deblurring algorithms are used in forensic analysis to reconstruct sharpened regions given blurred images.
+
+
+%Calibration algorithms continue seeing advanced. To recalculate calibration parameters through newer algorithms, we need access to high-resolution, multi-view calibration images, which are absent in many public datasets in Table~\ref{table:dataset_comparison}. Compared with many existing datasets, we provide a global intrinsics calibration set and per-focal-length extrinsic calibration sets, allowing recalibration flexibility.
+
+Reliable shallow DoF rendering and defocus deblurring under real optical conditions remain challenging for state-of-the-art DoF and defocus deblurring models due to the lack of large-scale, full-frame resolution, high-fidelity, real DSLR datasets. Table \ref{table:dataset_comparison} shows dataset comparisons among different datasets. Most early datasets contain large numbers of scenes from indoor and outdoor environments; however, these datasets encounter several limitations, including low-resolution images and the lack of systematic variations of focal length and apertures. DPDD~\cite{abuolaim2019dpdd} is a recent 6K-resolution dataset for model training and evaluation in defocus deblurring, but this dataset does not systematically cover a varying range of focal lengths and apertures. QPDD~\cite{chen2025quad} is another defocus deblurring dataset captured by a camera with sub-aperture views, allowing models to use these sub-aperture views to deblur a pixel. The limitation of the sub-aperture views is the micro-parallax problem, where it is difficult to distinguish between actual depth and sensor noise due to the tiny physical distance between the sub-pixels. Additionally, the existing datasets do not provide calibration sets for recalculating calibration parameters through newer algorithms. Thus, we provide a global intrinsic calibration set and per-focal-length extrinsic calibration sets, allowing recalibration flexibility.
+
+%Further, calibration algorithms continue seeing advancement. To recalculate calibration parameters using newer algorithms, we need access to high-resolution, multi-view calibration images, which are absent in many public datasets (Table~\ref{table:dataset_comparison}). We provide a global intrinsics calibration set and per-focal-length extrinsic calibration sets, allowing recalibration flexibility. 
+
+
+\subsection{Contributions}\label{subsec:contribution}
+
+%MODEST addresses three gaps simultaneously: high resolution, stereo geometry, and systematic optical variation where none of which existing datasets provide together. Our proposed dataset, Multi-Optics Depth-of-Field Stereo Dataset (MODEST), contains 20000 images across 10 scenes at high resolution (5472 $\times$ 3648 px). Each scene has 10 focal lengths and 5 apertures per focal length, with a dedicated calibration image set per focal length consisting of large checkerboard images (see Table~\ref{table:dataset_comparison}). The dataset also includes challenging visual elements such as optical illusions, reflective surfaces, ambiguous background depths, sharp brightness changes, etc. 
+
+%Our second contribution is that we implement and evaluate state-of-the-art monocular and stereo depth estimation, shallow depth-of-field, and deblurring methods on our dataset. We also produce systematic performance evaluation for shallow depth-of-field and deblurring methods across focal lengths and highlight the need to train and test these models on datasets such as ours, which offer explicit, wide coverage of camera optics.
+
+%We open source the dataset, illustrations and visuals, processing and evaluation tools to push research frontiers for purely non-commercial and academic purposes.
+
+In this paper, we introduce the first high-resolution stereo DSLR dataset called the Multi-Optics Depth-of-Field Stereo Dataset (MODEST), capturing methodical variations of focal length and aperture across 10 complex real scenes and the optical realism and complexity of professional camera systems. The MODEST dataset addresses three major limitations, high resolution, stereo geometry, and systematic optical variation, in existing datasets. Our MODEST dataset contains 20000 images across 10 scenes at high resolution (5472 $\times$ 3648 px). Each scene has 10 focal lengths and 5 apertures per focal length, with a dedicated calibration image set per focal length consisting of large checkerboard images (see Table~\ref{table:dataset_comparison}). Therefore, we can recalculate calibration parameters through newer calibration algorithms by accessing high-resolution and multi-view calibration images. The dataset also includes challenging visual elements such as optical illusions, reflective surfaces, ambiguous background depths, and sharp brightness changes.
+
+The second contribution of this paper is that we perform a systematic analysis of state-of-the-art DoF and defocus deblurring models on our proposed dataset across varying focal lengths. With these performance analysis results, this paper reveals the limitations in current state-of-the-art models for both depth of field rendering and defocus deblurring.
+
+The final contribution is that we release our MODEST dataset, illustrations, and visuals, processing and evaluation tools to push research frontiers for purely non-commercial and academic purposes.
+
+
+
+
+
+\subsection{Related Datasets}\label{subsec:related_datasets}
+
+% add one small paragraph to be a summary.
+In this subsection, we will briefly introduce and discuss related existing datasets for depth of field and defocus deblurring as mentioned in 
+Table~\ref{table:dataset_comparison}
+
+% Shallow depth-of-field rendering
+
+Shallow depth-of-field (DoF) rendering is a process of synthetically creating the photographic effect where only a small portion of the scene in images is in focus, while the rest is blurred. The idea of shallow DoF is to mimic the optics of real cameras with wide apertures. The CUHK~\cite{Shi2014BlurDetection} dataset is the earliest data for DoF applications, but this dataset does not have variations of focal lengths and apertures for the collected images because they are collected from Internet. DPDD~\cite{abuolaim2019dpdd} is a pioneering dataset for shallow DoF rendering; however, the limitations of the DPDD~\cite{abuolaim2019dpdd} dataset include one camera model and optics setup, and only one blur condition. EBB!~\cite{ignatov2020rendering} is another dataset for shallow DoF rendering, but is no longer accessible. Recent data sets for shallow DoF rendering are BLB~\cite{zheng2022blur} and VABD~\cite{huang2024vabd}. Both datasets solve the issue of single optics and one blur condition in DPDD~\cite{abuolaim2019dpdd} by providing either multiple blur levels per scene or capturing multiple apertures per scene. The problems with the BLB and VABD dataset are that it only provides multiple blur levels or calibration parameters. The most recent dataset for DoF is RealBokeh~\cite{seizinger2025bokehlicious}.While it captures high-resolution RGB images with both focal length and aperture variation across a large number of scenes, it remains monocular and provides no calibration sets, making recalibration or adaptation to new lens configurations impossible. Furthermore, as RealBokeh prioritizes scene diversity over per-scene optical coverage, it does not capture the same scene across a systematic grid of focal length and aperture combinations, making it difficult to disentangle blur caused by aperture width from blur caused by subject distance. MODEST addresses all three of these limitations through stereo capture, per-focal-length calibration sets, and a controlled 50-configuration grid per scene.
+
+% DoF capture setting discussion.
+%Varying focal lengths, focal distances, and apertures are essential optical properties for DoF images. To capture images with variations in focal lengths, distances, and apertures, a light-field camera records the spatial location and angular directions of incoming light rays. Therefore, the light-field camera easily captures varied apertures. The images in both RTF~\cite{d2016non} and LFDOF~\cite{ruan2021aifnet} datasets are collected by a light-field camera. RTF contains images captured by physical aperture variations, but LFDOF is captured with a fixed camera aperture. Additionally, for both datasets, the captured images are low resolution due to the nature of the light-field camera. Unlike RTF and LFDOF, RealDOF~\cite{lee2021iterative} is captured by a dual-camera sensor that simulates shallow DoF by retaining sharp subjects in focus and blurring the background; however, the limitation of the dual-camera is having a small baseline between the two cameras, and it cannot reproduce true optical DoF.
+
+% DoF capture setting discussion.
+To capture DoF images with variations in focal lengths, distances, and apertures, a light-field camera records the spatial location and angular directions of incoming light rays. Therefore, the light-field camera easily captures varied apertures. The images in both RTF~\cite{d2016non} and LFDOF~\cite{ruan2021aifnet} datasets are collected by a light-field camera. RTF contains images captured by physical aperture variations, but LFDOF is captured with a fixed camera aperture. Additionally, for both datasets, the captured images are low resolution due to the nature of the light-field camera. Unlike RTF and LFDOF, RealDOF~\cite{lee2021iterative} is captured by a dual-camera sensor that simulates shallow DoF by retaining sharp subjects in focus and blurring the background; however, a dual-camera has a small baseline between the two cameras and cannot reproduce true optical DoF.
+
+
+% defocus deblurring
+%To yield defocus or blurred images, a GoPro black camera is used to synthesize blurred images through averaging consecutive frames in a high-speed video for the GoPro~\cite{nah2017deep}, HIDE~\cite{shen2019human}, REDS~\cite{nah2019ntire}, NTIRE~\cite{nah2021ntire} dataset. The constraint of the blurred images captured by either a Hero4 or Hero6 camera is fixed defocus, which fails to defocus distant objects. Therefore, the GoPro camera is incapable of creating “bokeh” (background defocus) for any object further than a few inches away. For the DeepLens~\cite{lijun2018deeplens}, RealBlur~\cite{rim2020real}, and iDFD~\cite{nazir2023idfd} datasets, they create blurred images through stereo disparity, which is a baseline between a wide-angle lens and a telephoto lens camera, created by a dual-lens camera. Then, it applies the disparity map to compute pixel-wise blurriness levels for foreground and background in the image. Due to the disparity map, the constraints of the dual-lens camera contain boundary confusion and depth Discontinuity. Unlike previous defocus and blurring datasets, GS-Blur~\cite{lee2024gs} applies a 3D Gaussian Splatting model to synthesize blurred images. The major bottleneck of the blurred images is low-frequency bias, where the images lose detail because of over-smoothing. The QPDD~\cite{chen2025quad} dataset contains blurred images captured by a quad-pixel sensor that captures defocus information by splitting the light that enters a single microlens into four different sub-aperture views; however, the blurred images captured by the quad-pixel sensor are still yielded by fixed apertures.
+
+In defocus deblurring, a GoPro black camera is used to synthesize blurred images through averaging consecutive frames in a high-speed video for the GoPro~\cite{nah2017deep}, HIDE~\cite{shen2019human}, REDS~\cite{nah2019ntire}, NTIRE~\cite{nah2021ntire} dataset. The constraint of the blurred images captured by either a Hero4 or Hero6 camera is fixed defocus, which fails to defocus distant objects. Therefore, the GoPro camera is incapable of creating “bokeh” (background defocus) for any object further than a few inches away. For the DeepLens~\cite{lijun2018deeplens}, RealBlur~\cite{rim2020real}, and iDFD~\cite{nazir2023idfd} datasets, they create blurred images through stereo disparity, which is a baseline between a wide-angle lens and a telephoto lens camera, created by a dual-lens camera. Then, it applies the disparity map to compute pixel-wise blurriness levels for foreground and background in the image. Due to the disparity map, the constraints of the dual-lens camera contain boundary confusion and depth Discontinuity. Unlike previous defocus and blurring datasets, GS-Blur~\cite{lee2024gs} applies a 3D Gaussian Splatting model to synthesize blurred images. The major bottleneck of the blurred images is low-frequency bias, where the images lose detail due to over-smoothing. The QPDD~\cite{chen2025quad} dataset contains blurred images captured by a quad-pixel sensor that captures defocus information by splitting the light that enters a single microlens into four different sub-aperture views; however, the blurred images captured by the quad-pixel sensor are difficult to distinguish between actual depth and sensor noise due to the tiny physical distance between the sub-pixels.
+
+
+% Optical illusions
+%Optical illusions in depth-model evaluation refer to probing the limitations of depth-estimation models via perceptual tricks or visually deceptive scenes. These illusions reveal where a model relies on texture, shading, or priors in the images rather than true geometric reasoning. 3D-Visual-Illusion~\cite{yao20253d} is a dataset for optical illusion, and it has been used for human vision experiments where illusions help understand how the human visual system infers 3D structure rather than directly measuring it. The limitation of this dataset is the lack of calibration sets for image calibration. The MonoTrap~\cite{bartolomei2025stereo} is a recent dataset for optical illusions; however, this data only has low-resolution images for the optical illusion task. Thus, many optical illusions in the real world (e.g., heat haze or subtle glass reflection) are missing in low-resolution images. Additionally, the optical illusion images are captured at a fixed number of apertures. This causes MonoTrap to be incapable of mimicking how real professional cameras operate.
+
+% ours (MODEST)
+Compared to existing datasets, our proposed MODEST dataset includes both high-resolution stereo RGB images captured with different focal lengths and aperture settings per scene, along with calibration sets provided for calibration algorithms. They enable recalibration or adaptation to lens drift or new alignment while performing camera calibration. With high-resolution images (i.e., 5K-resolution images), the MODEST enables captured images to preserve much detail for optical illusions. This allows researchers to analyze a model’s illusion errors comprehensively and mimic the operations of professional cameras in optical illusions. Additionally, the benefit of our MODEST dataset for shallow DoF rendering tasks is that it contains physical defocused and sharp images (i.e., ground truth) due to its wide range of apertures. In addition, compared to the RealBokeh dataset, MODEST captures the same scene across a mixture of 50 different optical configurations. This allows researchers to assess the model’s quantitative results through high-scene varieties. As we showed with experiments, the Bokehlicious model trained on the RealBokeh dataset is tuned on a particular lens and performs slightly worse on the lens of this dataset. Our MODEST dataset thus offers a second lens datapoint with similar high-resolution images for a slightly more generalizability test.
+
+
+
+% stereo dataset + multi-vieew stereo dataset --> move it to supplumentary material
+%Early datasets for depth-model evaluation, including KITTI~\cite{geiger2012kitti, Menze2015ISA}, NYU Depth V2~\cite{silberman2012nyu} , ScanNet~\cite{dai2017scannet}, TUM RGB-D~\cite{sturm2012tum}, and iBims-1~\cite{koch2018evaluation}, contain low-resolution RGB and depth images. Due to low resolutions, small objects and detailed context in RGB and depth images are difficult to recognize and evaluate. Most recently, new datasets, including DIML outdoor~\cite{wong2020diml}, HAMMER~\cite{laga2022hammer},and ScanNet++~\cite{yeshwanth2024scannetpp}, with high-resolution RGB and depth images, were proposed to be adapted to depth-model evaluation problems. The limitation of this data set is that sensors with constant focal lengths and aperture settings are used to capture RGB frames. Thus, the captured scenes are not varied enough for depth estimation evaluation. The Middlebury14~\cite{Scharstein_2014_High_Resolution_Stereo} and Middlebury21~\cite{Scharstein2002taxonomy} datasets include high-resolution stereo RGB images, so they have been used for stereo matching and disparity estimation; however, these stereo RGB images are captured by the image sensors with constant focal lengths and apertures. The HAMMER~\cite{laga2022hammer} and ScanNet++~\cite{yeshwanth2024scannetpp} also include high-resolution RGB and depth images, but they are also captured by imaging sensors with constant focal lengths and apertures. Regardless of the above datasets, multi-view stereo datasets have been made available. ETH3D~\cite{schops2017eth3d} and DDAD~\cite{garg2020ddad} datasets comprise images acquired under varying lighting conditions. The limitation of multi-view stereo datasets is variations in focal lengths and apertures during the data acquisition process. 
+
+% 3D scence reconstruction.  --> move it to supplumentary material
+%3D scene reconstruction is another fundamental task in computer vision studies, and pioneering datasets, such as Sintel~\cite{butler2012sintel}  and DIODE ~\cite{vlasic2019diode}, are made available. Sintel~\cite{butler2012sintel} is a synthetic dataset made through synthetic renderings from the 3D film Sintel. Due to the synthetic images, the color distribution of the scenes in the Sintel~\cite{butler2012sintel} dataset differs from real scenes captured by real sensors ~\cite{jia2025secret}. DIODE~\cite{vlasic2019diode} is another public dataset used for 3D reconstruction tasks. The scenes have varying illumination changes due to indoor and outdoor environments. The problem with the DIODE~\cite{vlasic2019diode} dataset is that calibration sets (i.e., calibration images) are not provided. Therefore, the calibration parameters are difficult to reuse to calibrate captured images from new sensors.
+
+
+
+
+
+
+
+
+%\begin{table*}
+%\centering
+%\caption{Data comparison categorized per use-case. This table focuses on stereo dataset, multi-view stereo, and 3D scene reconstruction. (\dag, \ddag): systematic focal length and aperture variation. RGB-P: RGB with polarisation sensor. Active Stereo: an active stereo depth sensor. D-ToF, I-TOF: direct, indirect Time-of-Flight sensor.\vspace{-5pt}}
+%\label{table:dataset_comparison}
+%\footnotesize % Use a smaller font size for a wide table
+
+%\begin{adjustbox}{width=\textwidth}
+%\begin{tabular}{l c c c c c c c c c}
+%    \toprule
+%    \textbf{Dataset} & \textbf{Capture} & \textbf{Real/} & \textbf{Scene} & \textbf{Number of} & \textbf{Resolution} & \textbf{Focal Len.} & \textbf{Aperture} & \textbf{Depth} & \textbf{Calibration} \\
+%    & \textbf{Setup} & \textbf{Synthetic} & \textbf{Number} & \textbf{Images} & & \textbf{Variation \dag} & \textbf{Variation \ddag} & \textbf{Range} & \textbf{Set} \\
+%    \midrule
+%    \multicolumn{10}{l}{\textbf{Use Case: Stereo Dataset and Depth-model Evaluation}} \\
+%    \cmidrule{1-10} % Partial rule to separate section title from data
+%    KITTI ('12)~\cite{geiger2012kitti} & Stereo RGB + LiDAR & Real & 389 & 389 & $1242 \!\times\! 375$px & \xmark & \xmark  & $0.5\text{m} - 80\text{m}$ & \xmark \\
+%    NYU Depth V2 ('12)~\cite{silberman2012nyu} & Mono RGB-D (Kinect v1) & Real & 464 & \na & $640 \!\times\! 480$px & \xmark & \xmark & $0.5\text{m} - 10\text{m}$ & \xmark \\
+%    TUM RGB-D ('12)~\cite{sturm2012tum} & Mono RGB-D (Kinect v1) & Real & 39 & \na & $640 \!\times\! 480$px & \xmark & \xmark & $0.5\text{m} - 5\text{m}$ & \xmark \\
+%    Middlebury14 ('14)~\cite{Scharstein_2014_High_Resolution_Stereo} & Stereo Image RGB + high-precision structured-light scanning & Real & 38 & 31 & $3000 \!\times\! 2000$px & \xmark & \xmark & $0.3\text{m} - 10\text{m}$ & \xmark \\
+%    KITTI ('15)~\cite{Menze2015ISA} & Stereo Image RGB + LiDAR & Real & 400 & 400 & $1242 \!\times\! 375$px & \xmark & \xmark & $0\text{m} - 120\text{m}$ & \xmark \\
+%    vKITTI ('16)~\cite{gaidon2016vkitti} & Virtual stereo cameras (Unity) & Synthetic & 5 & 21260 & $1242 \!\times\! 375$px & \xmark & \xmark & $0.5\text{m} - 100\text{m}$ & \xmark \\
+%    ScanNet ('17)~\cite{dai2017scannet} & Mono RGB-D (iPad + PrimeSense) & Real & 1513 & \na & (640-1296) $\!\times\!$ (480-968)px & \xmark & \xmark & $0.2\text{m} - 10\text{m}$ & \xmark \\
+%    Matterport3 ('17)~\cite{chang2017matterport3d} & Multi-camera (360-degree RGB-D) & Real & 90 & \na & $1280 \!\times\! 1024$px & \xmark & \xmark & $0.2\text{m} - 20\text{m}$ & \xmark \\
+%    iBims-1 ('18)~\cite{koch2020ibims1} & Mono RGB (DSLR) & Real & 100 & \na & (640-1500) $\!\times\!$ (480-1000)px & \xmark & \xmark & $0.5\text{m} - 10\text{m}$ & \xmark \\
+%    VOID ('20)~\cite{wang2020void} & Mono RGB-D (RealSense D435i) & Real & 52 & \na & $640 \!\times\! 480$px & \cmark & \xmark & $50\text{m}$ & \xmark \\
+%    DIML outdoor ('20)~\cite{wong2020diml} & Stereo RGB (ZED camera) & Real & 132 & 132 & $1920 \!\times\! 1080$px & \xmark & \xmark & $0.5\text{m} - 100\text{m}$ & \xmark \\
+%    Middlebury21 ('21)~\cite{Scharstein2002taxonomy} & Stereo Image RGB (handheld mobile) + high-precision structured-light scanning & Real & 24 & 24 & $4032 \!\times\! 3024$px & \xmark & \xmark & $0.3\text{m} - 10\text{m}$ & \xmark \\
+%    HAMMER ('22)~\cite{laga2022hammer} & Multi-camera (RGB-P + Active/D/I-ToF) & Real & 13 & \na & $1280 \!\times\! 720$px & \xmark & \xmark & $10\text{m}$ & \xmark \\
+%    ScanNet++ ('24)~\cite{yeshwanth2024scannetpp} & Mono RGB-D (iPad + Structure Sensor) & Real & 380 & \na & $1920 \!\times\! 1440$px & \xmark & \xmark & $0.2\text{m} - 20\text{m}$ & \xmark \\
+%    MODEST (Ours) & Stereo RGB (Canon 6D) & Real & 9 & 20000 & $\mathbf{5472 \!\times\! 3648}$px & \cmark & \cmark & $0.5\text{m} - 10\text{m}$ & \cmark \\
+%    \midrule % Separator for main sections
+%    \multicolumn{10}{l}{\textbf{Use Case: Multi-view Stereo}} \\
+%    \cmidrule{1-10}
+%    ETH3D ('17)~\cite{schops2017eth3d} & Multi-camera (DSLR + LiDAR + Stereo) & Real & 25 & 47 & $2048 \!\times\! 1536$px & \xmark & \xmark & $0.5\text{m} - 50\text{m}$ & \xmark \\
+%    ETH3D low-res 2-view (17')~\cite{schops2017multi} & Stereo Image RGB + Multi-view Stereo & Real & 40 & 47 & $752 \!\times\! 480$px & \xmark & \xmark & $1\text{m} - 30\text{m}$ & \cmark \\    
+%    Replica ('19)~\cite{straub2019replica} & Mono RGB (DSLR + LiDAR) & Synthetic & 18 & \na & $1080 \!\times\! 1080$px & \xmark & \xmark & $0.1\text{m} - 10\text{m}$ & \xmark \\
+%    DDAD ('20)~\cite{garg2020ddad} & Multi-camera (shutter + LiDAR) & Real & 200 & \na & $1600 \!\times\! 900$px & \xmark & \xmark & $0.5\text{m} - 100\text{m}$ & \xmark \\
+%    MODEST (Ours) & Stereo RGB (Canon 6D) & Real & 9 & 20000 & $\mathbf{5472 \!\times\! 3648}$px & \cmark & \cmark & $0.5\text{m} - 10\text{m}$ & \cmark \\
+%    \midrule
+%    \multicolumn{10}{l}{\textbf{Use Case: 3D static and dynamic scene generation}} \\
+%    \cmidrule{1-10}
+%    Sintel ('12)~\cite{butler2012sintel} & Synthetic renderings from 3D film & Synthetic & 23 & \na & $1024 \!\times\! 436$px & \xmark & \xmark & $0\text{m} - 80\text{m}$ & \xmark \\
+%    DIODE ('19)~\cite{vlasic2019diode} & Mono RGB-D (FARO Focus S350) & Real & 30 & \na & $1024 \!\times\! 768$px & \xmark & \xmark & $0.5\text{m} - 350\text{m}$ & \xmark \\
+%    MODEST (Ours) & Stereo RGB (Canon 6D) & Real & 9 & 20000 & $\mathbf{5472 \!\times\! 3648}$px & \cmark & \cmark & $0.5\text{m} - 10\text{m}$ & \cmark \\
+    
+%    \bottomrule
+%\end{tabular}
+%\end{adjustbox}
+%\vspace{-6pt}
+%\end{table*}
+
+

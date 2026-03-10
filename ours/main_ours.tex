@@ -1,0 +1,135 @@
+\documentclass[runningheads]{llncs}
+
+% ---------------------------------------------------------------
+% Include basic ECCV package
+ 
+% TODO REVIEW: Insert your submission number below by replacing '*****'
+% TODO FINAL: Comment out the following line for the camera-ready version
+\usepackage[review,year=2026,ID=4375]{eccv}
+% TODO FINAL: Un-comment the following line for the camera-ready version
+%\usepackage{eccv}
+
+% OPTIONAL: Un-comment the following line for a version which is easier to read
+% on small portrait-orientation screens (e.g., mobile phones, or beside other windows)
+%\usepackage[mobile]{eccv}
+
+
+% ---------------------------------------------------------------
+% Other packages
+
+% Commonly used abbreviations (\eg, \ie, \etc, \cf, \etal, etc.)
+\usepackage{eccvabbrv}
+
+% Include other packages here, before hyperref.
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+% The "axessiblity" package can be found at: https://ctan.org/pkg/axessibility?lang=en
+\usepackage[accsupp]{axessibility}  % Improves PDF readability for those with disabilities.
+
+
+% ---------------------------------------------------------------
+% Hyperref package
+
+% It is strongly recommended to use hyperref, especially for the review version.
+% Please disable hyperref *only* if you encounter grave issues.
+% hyperref with option pagebackref eases the reviewers' job, but should be disabled for the final version.
+%
+% If you comment hyperref and then uncomment it, you should delete
+% main.aux before re-running LaTeX.
+% (Or just hit 'q' on the first LaTeX run, let it finish, and you
+%  should be clear).
+
+% TODO FINAL: Comment out the following line for the camera-ready version
+%\usepackage[pagebackref,breaklinks,colorlinks,citecolor=eccvblue]{hyperref}
+% TODO FINAL: Un-comment the following line for the camera-ready version
+\usepackage{hyperref}
+\usepackage{adjustbox}
+\usepackage[table]{xcolor} % For colors (defining darkred/darkgreen)
+\usepackage{multirow} % for multi-row headers (used for "Method")
+\definecolor{darkred}{rgb}{0.55, 0.0, 0.0}
+\definecolor{darkgreen}{RGB}{1,50,32}
+
+\usepackage{marvosym}
+\usepackage{adjustbox}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{tabularx}
+\usepackage{wrapfig}
+
+
+\definecolor{darkred}{rgb}{0.6, 0, 0}
+\definecolor{darkgreen}{rgb}{0, 0.6, 0}
+\newcommand{\cmark}{\textcolor{darkgreen}{\ding{51}}} % Checkmark
+\newcommand{\xmark}{\textcolor{darkred}{\ding{55}}} % Cross
+\newcommand{\na}{\text{---}} % For N/A or unmentioned data
+\usepackage[table]{xcolor}
+\usepackage{colortbl}          % extra safety
+\definecolor{lightblue1}{RGB}{222,235,247} % lightest blue
+\definecolor{lightblue2}{RGB}{189,215,238} % medium blue
+\definecolor{lightblue3}{RGB}{158,202,225} % slightly darker blue
+
+
+
+% Support for ORCID icon
+\usepackage{orcidlink}
+
+
+\begin{document}
+
+% ---------------------------------------------------------------
+% TODO REVIEW: Replace with your title
+\title{MODEST: Multi-Optics Depth-of-Field Stereo Dataset} 
+
+% TODO REVIEW: If the paper title is too long for the running head, you can set
+% an abbreviated paper title here. If not, comment out.
+\titlerunning{}
+
+% TODO FINAL: Replace with your author list. 
+% Include the authors' OCRID for the camera-ready version, if at all possible.
+\author{First Author\inst{1}\orcidlink{0000-1111-2222-3333} \and
+Second Author\inst{2,3}\orcidlink{1111-2222-3333-4444} \and
+Third Author\inst{3}\orcidlink{2222--3333-4444-5555}}
+
+% TODO FINAL: Replace with an abbreviated list of authors.
+\authorrunning{F.~Author et al.}
+% First names are abbreviated in the running head.
+% If there are more than two authors, 'et al.' is used.
+
+% TODO FINAL: Replace with your institution list.
+\institute{Princeton University, Princeton NJ 08544, USA \and
+Springer Heidelberg, Tiergartenstr.~17, 69121 Heidelberg, Germany
+\email{lncs@springer.com}\\
+\url{http://www.springer.com/gp/computer-science/lncs} \and
+ABC Institute, Rupert-Karls-University Heidelberg, Heidelberg, Germany\\
+\email{\{abc,lncs\}@uni-heidelberg.de}}
+
+\maketitle
+
+
+\begin{abstract}
+    Training and evaluation of state-of-the-art computer vision algorithms for reliable shallow depth of field rendering and defocus deblurring under real optical conditions remain challenging due to the constraints of lacking large-scale, full-frame resolution, high-fidelity, and real DSLR datasets. Furthermore, since shallow depth of field and defocus deblurring depend intimately on camera optical parameters, including focal length, aperture, focus plane distance, and lens geometry, models must be rigorously evaluated using high-resolution datasets with these systematic variations. We present a 5K-resolution stereo DSLR dataset, methodically varying focal length and aperture across multiple complex real scenes, capturing the optical realism and complexity of professional camera systems. The introduced dataset enables controlled analysis of geometric and optical effects for shallow depth-of-field rendering and defocus deblurring algorithms. Additionally, we provide image sets for each focal configuration, supporting classical and learning-based calibration methods. We evaluate several state-of-the-art algorithms for depth of field and defocus deblurring across focal lengths and demonstrate failure cases. By attempting to bridge the gap between synthetic data and physical camera optics, this work exposes the limitations in current state-of-the-art methods for both depth of field rendering and defocus deblurring. We release the dataset, calibration files, and evaluation code to support reproducible benchmarking and further research on real-world optical generalization.\textcolor{darkgreen}{compare with https://docs.google.com/document/d/1vsjTrOFuumkASIkkYNtputGWMiQm4qyi0jxB9T7peEY/edit?tab=t.c2uoh6o2remg}
+    
+    
+    %Reliable Shallow Depth of Field rendering and Defocus Deburring under varying optical conditions remain significant challenges in computer vision research fields. Existing models are often bottlenecked by real-world datasets that lack high resolution, large quantity or rigorous optical metadata, limiting generalization of these models to real-world DSLR optics. In this paper, we introduce MODEST, the first high-resolution (5472×3648 px) stereo DSLR dataset designed to bridge the gap between synthetic defocus and true lens physics. The dataset contains 20000 images across 10 complex real-world scenes, captured with systematic variations in focal lengths, apertures, and stereo baseline. Unlike existing benchmarks, MODEST explicitly captures the non-linear relationship between varying apertures and focal lengths across 50 distinct optical configurations per scene. This allows analysis of geometric aberrations, bokeh morphology, and blur kernels. Each scene is filled with challenging artifacts like transparent interfaces and fine-grained textures, to stress-test SDoF rendering, defocusing, and deblurring. In addition, we provide calibration sets to calculate intrinsics and extrinsics for every configuration for disparity-guided refocusing. Our evaluation of state-of-the-art defocusing and depth-of-field models reveal significant performance degradation as focal parameters shift, highlighting the realism gap in current synthetic-heavy training regimes. We will open source the dataset and calibration suite to establish a new standard for reproducible research in high-fidelity optical modeling.
+  \keywords{Depth of Field \and Stereo Imaging \and Multi-Optics Dataset}
+\end{abstract}
+
+
+% each section
+\input{text/1_intro}
+\input{text/2_method}
+\input{text/3_exp}
+\input{text/4_conclusion}
+
+
+\clearpage  % TODO FINAL: This \clearpage needs to be removed from both review and camera-ready versions.
+% ---- Bibliography ----
+%
+% BibTeX users should specify bibliography style 'splncs04'.
+% References will then be sorted and formatted in the correct style.
+%
+\bibliographystyle{splncs04}
+\bibliography{main}
+\end{document}
