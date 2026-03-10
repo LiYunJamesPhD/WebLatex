@@ -101,22 +101,18 @@
 
 
 {
-    "name": "WebLaTex-Fixed",
-    "build": { "dockerfile": "Dockerfile" },
-    "remoteEnv": {
-        "PATH": "/usr/local/texlive/2026/bin/x86_64-linux:${containerEnv:PATH}"
+    "name": "WebLaTeX 2026",
+    "build": {
+        "dockerfile": "Dockerfile"
     },
     "customizations": {
         "vscode": {
-            "settings": {
-                "latex-workshop.latex.tools": [
-                    {
-                        "name": "latexmk",
-                        "command": "latexmk",
-                        "args": ["-pdf", "-interaction=nonstopmode", "-synctex=1", "%DOC%"]
-                    }
-                ]
-            }
+            "extensions": [
+                "james-yu.latex-workshop",
+                "GitHub.copilot",
+                "sanjib-sen.weblatex"
+            ]
         }
-    }
+    },
+    "remoteUser": "vscode"
 }
