@@ -86,15 +86,37 @@
 //	}
 //}
 
+//{
+//    "name": "WebLaTex-2026",
+//    "build": {
+//        "dockerfile": "Dockerfile"
+//    },
+//    // Keep the rest of the existing settings (features, extensions, etc.) below
+//    "customizations": {
+//        "vscode": {
+//            "extensions": ["James-Yu.latex-workshop"]
+//        }
+//    }
+//}
+
+
 {
-    "name": "WebLaTex-2026",
-    "build": {
-        "dockerfile": "Dockerfile"
+    "name": "WebLaTex-Fixed",
+    "build": { "dockerfile": "Dockerfile" },
+    "remoteEnv": {
+        "PATH": "/usr/local/texlive/2026/bin/x86_64-linux:${containerEnv:PATH}"
     },
-    // Keep the rest of the existing settings (features, extensions, etc.) below
     "customizations": {
         "vscode": {
-            "extensions": ["James-Yu.latex-workshop"]
+            "settings": {
+                "latex-workshop.latex.tools": [
+                    {
+                        "name": "latexmk",
+                        "command": "latexmk",
+                        "args": ["-pdf", "-interaction=nonstopmode", "-synctex=1", "%DOC%"]
+                    }
+                ]
+            }
         }
     }
 }
