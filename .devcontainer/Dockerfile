@@ -1,23 +1,23 @@
-FROM mcr.microsoft.com/devcontainers/base:ubuntu-22.04
+# Use a modern Ubuntu base
+FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04
 
-# 1. Install system dependencies
+# Install installer dependencies
 RUN apt-get update && apt-get install -y \
     perl \
     wget \
     xz-utils \
-    libfontconfig1 \
     && rm -rf /var/lib/apt/lists/*
 
-# 2. Use a specific TeX Live installer that is faster
-RUN wget -qO- https://github.com/reuterbal/texlive-tiny/releases/latest/download/install-tl-unx.tar.gz | tar -xz -C /tmp && \
-    mv /tmp/install-tl-* /tmp/install-tl && \
-    printf "selected_scheme scheme-basic\ninstopt_adjustpath 1" > /tmp/install-tl/texlive.profile && \
-    /tmp/install-tl/install-tl --profile=/tmp/install-tl/texlive.profile && \
-    rm -rf /tmp/install-tl
+# Download and run the TeX Live 2026 installer
+RUN wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && \
+    mkdir /install-tl-unx && \
+    tar -xvf install-tl-unx.tar.gz -C /install-tl-unx --strip-components=1 && \
+    echo "selected_scheme scheme-full" > /install-tl-unx/texlive.profile && \
+    /install-tl-unx/install-tl --profile=/install-tl-unx/texlive.profile && \
+    rm -r install-tl-unx.tar.gz /install-tl-unx
 
-# 3. Set the PATH (Crucial step)
+# Set the PATH specifically for the 2026 version
 ENV PATH="/usr/local/texlive/2026/bin/x86_64-linux:${PATH}"
 
-# 4. Use the TeX Manager to install latexmk specifically
-RUN tlmgr update --self && \
-    tlmgr install latexmk
+# Add any specific packages you need for your research
+RUN tlmgr install multirow colortbl cite tools
