@@ -1,0 +1,113 @@
+% % iccp26_template.tex
+% % Created by Ayan Chakrabarti from the IEEE bare_jrnl_compsoc.tex file.
+% % Modified by Ioannis Gkioulekas.
+%%
+% % bare_jrnl_compsoc.tex
+% % V1.4b
+% % 2015/08/26
+% % by Michael Shell
+% % See:
+% % http: // www.michaelshell.org/
+% % for current contact information.
+%%
+% % This is a skeleton file demonstrating the use of IEEEtran.cls
+% % (requires IEEEtran.cls version 1.8b or later) with an IEEE
+% % Computer Society journal paper.
+%%
+% % Support sites:
+% % http: // www.michaelshell.org/tex/ieeetran/
+% % http: // www.ctan.org/pkg/ieeetran
+% % and
+% % http: // www.ieee.org/
+
+% % *************************************************************************
+% % Legal Notice:
+% % This code is offered as- is without any warranty either expressed or
+% % implied without even the implied warranty of MERCHANTABILITY or
+% % FITNESS FOR A PARTICULAR PURPOSE!
+% % User assumes all risk.
+% % In no event shall the IEEE or any contributor to this code be liable for
+% % any damages or losses, including, but not limited to, incidental,
+% % consequential, or any other damages, resulting from the use or misuse
+% % of any information contained here.
+%%
+% % All comments are the opinions of their respective authors and are not
+% % necessarily endorsed by the IEEE.
+%%
+% % This work is distributed under the LaTeX Project Public License(LPPL)
+% % (http: // www.latex-project.org /) version 1.3, and may be freely used,
+% % distributed and modified. A copy of the LPPL, version 1.3, is included
+% % in the base LaTeX documentation of all distributions of LaTeX released
+% % 2003/12/01 or later.
+% % Retain all contribution notices and credits.
+% % ** Modified files should be clearly indicated as such, including **
+% % ** renaming them and changing author support contact information. **
+% % *************************************************************************
+
+
+\documentclass[10pt, journal, compsoc]{IEEEtran}
+\newif\ifpeerreview
+
+% % % Important: for camera ready submissions, replace the following line
+% % % with \peerreviewfalse
+\peerreviewtrue
+
+\usepackage[nocompress]{cite}
+\usepackage{url}
+\usepackage{amsmath, amssymb, graphicx}
+\usepackage{lipsum} % Only used to generate random text.
+
+
+\usepackage[switch]{lineno}
+
+% Put your paper title here
+\title{ICCP 2026 Rebuttal Template}
+
+% No author list in rebuttal
+\author{}
+
+% Insert your paper ID and information below
+\newcommand{\paperID}{XXXX}
+\markboth{Anonymous ICCP 2026 submission ID \paperID}%
+{}
+
+% Compact title block
+\makeatletter
+\def\@maketitle{%
+  \newpage
+  \null
+  \begin{center}
+    {\large\bfseries \@title\par}%
+  \end{center}
+  \vspace{-4.0em}%
+}
+\makeatother
+
+\begin{document}
+
+
+%% Make Title
+\ifpeerreview
+\linenumbers \linenumbersep 15pt\relax
+\author{Paper ID \paperID \vspace{-2em}}
+\fi
+
+\maketitle
+
+% % % % % % % % % BODY TEXT - ENTER YOUR RESPONSE BELOW
+
+\section{Rebuttal Guidelines}
+\begin{itemize}
+    \item After receiving paper reviews, authors may optionally submit a rebuttal to address the reviewers' comments, which will be limited to a {\bf one page} PDF file.
+    \item Just like the original submission, the rebuttal must maintain anonymity and cannot include external links that reveal the author identity or circumvent the length restriction.
+    \item \bf Make sure to update the paper title and paper ID in the appropriate place in the tex file.
+\end{itemize}
+
+% % % % % % % % % REFERENCES
+{\small
+ \bibliographystyle{ieeenat_fullname}
+ \bibliography{main}
+ }
+
+
+\end{document}
